@@ -41,9 +41,7 @@ runs:
         dinghy docker cache --include-images $PREPARE_IMAGES
         echo "::endgroup::"
         
-        # Set outputs
-        FULL_VERSION=$(dinghy --version)
-        DINGHY_VERSION=$(echo "$FULL_VERSION" | sed -n 's|@dinghy/cli/\([^ ]*\) .*|\1|p')
-        echo "dinghy-version=${DINGHY_VERSION}" >> $GITHUB_OUTPUT
-        echo "$HOME/.dinghy/bin" >> $GITHUB_PATH
+        echo "::group::Prepare Workflow"
+        dinghy gh prepare
+        echo "::endgroup::"
 
