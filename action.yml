@@ -23,7 +23,8 @@ runs:
         echo "::group::Install Dinghy CLI"
         DINGHY_VERSION="${DINGHY_CLI_VERSION:-0.0.0}"
         if [ "$DINGHY_VERSION" = "0.0.0" ]; then
-          if [ -f ".dinghyrc" ]; then
+          DINGHYRC="${APP_HOME:-.}/.dinghyrc"
+          if [ -f "$DINGHYRC" ]; then
             while IFS= read -r line || [ -n "$line" ]; do
               case "$line" in
                 DINGHY_ENGINE_VERSION=*)
@@ -31,7 +32,7 @@ runs:
                   break
                   ;;
               esac
-            done < ".dinghyrc"
+            done < "$DINGHYRC"
           fi  
           if [ "$DINGHY_VERSION" != "0.0.0" ]; then
             export DINGHY_VERSION="$DINGHY_VERSION"
