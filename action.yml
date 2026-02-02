@@ -5,7 +5,7 @@ inputs:
   prepare-images:
     description: 'list of images to prepare in advance'
     required: false
-    default: 'release'
+    default: 'engine'
 
 outputs:
   dinghy-version:
@@ -33,7 +33,7 @@ runs:
                     ;;
                 esac
               done < "$DINGHYRC"
-            fi  
+            fi
             if [ "$DINGHY_VERSION" != "latest" ]; then
               export DINGHY_VERSION="$DINGHY_VERSION"
             fi
@@ -42,13 +42,12 @@ runs:
         curl -fsSL "https://get.dinghy.dev/install.sh?source=github-action&version=$DINGHY_VERSION" | sh
         export PATH="$HOME/.dinghy/bin:$PATH"
         echo "::endgroup::"
-        
+
         echo "::group::Prepare Images"
         PREPARE_IMAGES="${{ inputs.prepare-images }}"
         dinghy docker cache --include-images $PREPARE_IMAGES
         echo "::endgroup::"
-        
+
         echo "::group::Prepare Workflow"
         dinghy gh prepare
         echo "::endgroup::"
-
